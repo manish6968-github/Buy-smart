@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel="stylesheet" href="../css/Web.css"> -->
+     <style>
+        
+*{
+margin: 0%;
+padding: 0%;
+font-family: 'Roboto', sans-serif;
+}
+body{
+background-color: #eeee;
+
+}
+nav{
+display: flex;
+justify-content: space-between;
+background-color: #eeee;
+padding: 17px;
+box-shadow: 0px 2px 2px 2px rgb(162, 162, 162);
+}
+nav .logo{
+margin-left: 22px;
+font-size: 24px;
+}
+.logo,.srch,ul li,.buttons{
+    margin-top: 1rem;
+}
+ul{
+margin-right: 45px;
+margin-top: 7px;
+}
+nav ul li{
+list-style: none;
+}
+ul li a{
+margin-inline: 22px;
+font-size: 20px;
+}
+ul li i{
+font-size: 22px;
+}
+/* ul li #home{
+color: rgb(5, 167, 167);
+} */
+ul li a:hover{
+border-bottom: 2px solid black;
+cursor: pointer;
+}
+ul li i:hover{
+color: gray;
+cursor: pointer;
+}
+.profile{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+.name{
+    height: 2.5rem;
+    width: 6rem;
+    /* background-color: rgb(4, 81, 81); */
+    /* border-radius: 2cap; */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* color: #f2f2f2; */
+    justify-content: space-evenly;
+}
+.name i{
+    font-size: larger;
+}
+#logout,#login,#signup{
+margin-left: 2rem;
+height: 2.5rem;
+width: 6rem;
+/* border-radius: 2cap; */
+background-color: rgb(35, 131, 131);
+}
+#login{
+    background-color: whitesmoke;
+}
+
+#logout a,#login a,#signup a{
+text-decoration: none;
+color: aliceblue;
+font-size: large;
+font-weight: bold;
+}
+#login a{
+    color: black;
+}
+.profile{
+    height:  4rem;
+    width:  4rem;
+    border-radius: 50%;
+    background-image: url('/images/profiel.jpg');
+    background-size: cover;
+    background-position: 100%;
+    position: relative;
+    cursor: pointer;
+    /* border: 2px solid red; */
+}
+
+.data{
+    display: none;
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: auto;
+    height: 5rem;
+    justify-content: space-between;
+    right: 0;
+    top: 4rem;
+    /* box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); */
+    /* border: 2px solid blue; */
+    z-index: 0; /* Ensure data appears behind profile */
+    opacity: 0;
+    text-align: center;
+    margin-top: 0.5rem;
+}
+.over{
+    width: 5rem;
+    height: 5rem;
+    /* border: 2px solid green; */
+}
+.over:hover .data {
+    display: block;
+    opacity: 1;
+}
+#search{
+    /* display: flex; */
+    width: 30vh;
+    height: 2.5rem;
+    border: 2px solid black;
+    border-radius: 2cap;
+}
+#bsr{
+    width: 4rem;
+    height: 2rem;
+    border: 2px solid black;
+    font-weight: bold;
+    background-color: rgb(35, 131, 131);
+    color: #ddd;
+}
+ul li a{
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+    font-size: large;
+    margin-right: 3rem;
+}
+     </style>
+    <script src="https://kit.fontawesome.com/b5722328df.js" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script> 
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <h1>Buy Smart</h1>
+        </div>
+        <div class="srch" style="width: 70vh; display:flex;justify-content:  space-between;">
+            <form action="/users/search" method="post">
+            <label for="search"></label>
+            <input type="text" id="search" name="search" placeholder="Enter max price: ">
+            <button type="submit" id="bsr">Search</button>
+            </form>
+            </div>
+        <ul>
+            <li>
+                
+              <a id="home"  href="/users/home" <i class="fa-solid fa-house"></i>Home</a>
+               <a href="/users/showcart"> <i class="fa-solid fa-cart-shopping"  id="scart"></i>Cart</a> 
+               
+               
+            </li>
+        </ul>
+        <div class="buttons">
+            <button id="logout"><a href="/users/logout">Logout <i class="fa-solid fa-right-from-bracket"></i></a></button>
+        </div>
+        <div class="over">
+        <div class="profile" id="profile">
+            
+         </div>
+         
+         <div class="data" id="data"> 
+            <h3>name
+
+
+
+                
+            </h3>
+            <button id="logout"><a href="/users/logout">Logout <i class="fa-solid fa-right-from-bracket"></i></a></button>
+        </div>
+    </div>
+    </nav>
+</body>
+</html>

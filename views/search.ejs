@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+         /* Reset default margin and padding */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    padding: 20px;
+}
+
+.products {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.crd1 {
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    width: 300px; /* Adjust width as needed */
+}
+
+.crd1:hover {
+    transform: translateY(-5px);
+}
+
+.crd1 img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.crdText {
+    padding: 15px;
+}
+
+.crdText h2 {
+    font-size: 18px;
+    margin-bottom: 5px;
+    color: #333;
+}
+
+.rating {
+    color: #f39c12; /* Adjust star color */
+    margin-bottom: 10px;
+}
+
+.rating i {
+    font-size: 16px;
+}
+
+.crdText h3 {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 5px;
+}
+
+.crdText h2:last-child {
+    font-size: 22px;
+    color: #e74c3c; /* Special price color */
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+.nav{
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color:rgb(4, 81, 81);
+    color: white;
+     height: 5rem;
+     /* border-radius: 2cap; */
+     transition: transform 0.3s ease;
+}
+.cart{
+display: flex;
+justify-content: center;
+display: none;
+
+}
+.cartText{
+padding: 22px;
+margin-top: 22px;
+}
+.cartText p{
+margin-top: 12px;
+}
+.cartText h2{
+margin-top: 11px;
+}
+.cartText .btn button{
+width: 140px;
+height: 40px;
+background-color: rgb(255, 89, 0);
+color: white;
+border: none;
+font-size: 22px;
+margin-inline: 11px;
+margin-top: 22px;
+}
+.cartText .back{
+width: 140px;
+height: 40px;
+background-color:rgb(4, 81, 81);
+color: white;
+border: none;
+font-size: 22px;
+margin-inline: 11px;
+margin-top: 22px;
+margin-top: 22px;
+}
+#addcart{
+    width: 10rem;
+}
+    </style>
+    <title>Document</title>
+</head>
+
+<body>
+    <%-include('header')%>
+    <div class="products">
+        <div class="nav">
+            <h2>Searching Products</h2>
+        </div>
+        <% if (products && products.length) { %>
+            <% products.forEach(product => { %>
+                <div class="crd1" onclick="show(this)">
+                    <img src="../images/<%= product.img %>" alt="<%= product.title %>">
+                    <div class="crdText">
+                        <h2><%= product.title %></h2>
+                        <div class="rating">
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star"></i>
+                            <i class="fa-solid fa-star-half-stroke"></i>
+                        </div>
+                        <h2>Special Price:</h2>
+                        <h3>$<%= product.price %></h3>
+                        <button>Shop Now</button>
+                    </div>
+                </div>
+            <% }); %>
+        <% } else { %>
+            <p>No products found.</p>
+        <% } %>
+    </div>
+    <div class="cart" id="cart">
+        <img id="newImg" src="" alt="">
+        <div class="cartText">
+            <h1>Trends Offer : Trending Shop <br>
+                Now</h1>
+                <h2 id="title"></h2> <br>
+                <h2>Special Price: </h2>
+                <h2 id="price"></h2>
+                <p>Clothes are threads of self-expression, woven with hues of personality.</p>
+                <p>Fashion's embrace mirrors confidence, stitching dreams into reality.</p>
+                <p>Comfort's embrace, a soft fabric of ease, wrapping moments in warmth.</p>
+               <div class="btn">
+                <button id="buy">Buy Now</button>
+                <button  id="addcart">Add to Cart</button>
+               </div>
+               <button  class="back" onclick="backTohome()">Home</button>
+
+
+
+        </div>
+     </div>
+     <script>
+        const cartSection = document.querySelector(".cart");
+        function cart(){
+            cartSection.style.display='none'
+        }
+function show(card) {
+   
+    const cards = document.querySelectorAll('.crd1');
+
+   
+    cards.forEach(c => {
+        
+            c.style.display = 'none';
+        
+    });
+    const imgSrc = card.querySelector('img').src;
+    const title = card.querySelector('.crdText h2').textContent;
+    const price = card.querySelector('.crdText h3').textContent;
+
+    
+    let newImg = document.getElementById("newImg");
+    newImg.src = imgSrc;
+    let titles = document.getElementById("title");
+    if (titles) {
+        titles.innerText = title;
+    } else {
+        console.error('Element with ID "title" not found.');
+    }
+    let pricep = document.getElementById("price");
+    if (pricep) {
+        pricep.innerText = price;
+    } else {
+        console.error('Element with ID "price" not found.');
+    }
+
+    
+    card.style.display = 'none';
+
+    
+    if (cartSection) {
+        cartSection.style.display = "flex";
+    } else {
+        console.error('Element with class "cart" not found.');
+    }
+
+   
+    const addcart = document.getElementById('addcart');
+    if (addcart) {
+        addcart.addEventListener('click', () => {
+            const data = {
+                imgsrc: imgSrc,
+                title: title,
+                price: price
+            };
+
+            fetch('/users/cart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.json();
+                } else if (response.status === 401) {
+                    throw new Error('Unauthorized');
+                } else {
+                    throw new Error('Failed to add item to cart');
+                }
+            })
+            .then(data => {
+                if (data.success) {
+                    alert('Item added successfully!!');
+                } else {
+                    alert('Item already present in cart!!');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                if (error.message === 'Unauthorized') {
+                    window.location.href = '/users/login';
+                }
+            });
+        });
+    } else {
+        console.error('Element with ID "addcart" not found.');
+    }
+
+    
+    const buyNow = document.getElementById('buy');
+    if (buyNow) {
+        buyNow.addEventListener('click', async () => {
+            const stripe = Stripe('your_stripe_public_key');
+
+            try {
+                const response = await fetch('/users/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ title, price, imgSrc })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const sessionData = await response.json();
+
+                const result = await stripe.redirectToCheckout({
+                    sessionId: sessionData.sessionId
+                });
+
+                if (result.error) {
+                    throw new Error(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                if (error.message === 'Failed to fetch data') {
+                    // Handle fetch error
+                } else if (error.message === 'Unauthorized') {
+                    window.location.href = '/users/login';
+                } else {
+                    // Handle other errors
+                }
+            }
+        });
+    } else {
+        console.error('Element with ID "buy" not found.');
+    }
+}
+function backTohome(){
+    alert("Back To HomePage");
+    location.reload()
+}
+     </script>
+</body>
+
+</html>

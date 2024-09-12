@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OTP Verification</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #a2c2e0, #e2a4a4);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        
+        .container {
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            width: 100%;
+            max-width: 350px;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #2d2d2d;
+            margin-bottom: 20px;
+            font-size: 24px;
+            font-weight: 600;
+        }
+        
+        .otp-input {
+            width: calc(100% - 22px);
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 2px solid #d1d1d1;
+            border-radius: 8px;
+            font-size: 18px;
+            box-sizing: border-box;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        .otp-input:focus {
+            border-color: #4CAF50;
+            box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+        }
+        
+        .submit-btn {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        
+        .flash-message {
+            background-color: #ffdddd;
+            color: #d8000c;
+            padding: 10px;
+            border: 1px solid #d8000c;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <% if (message.length > 0) { %>
+            <div class="flash-message">
+              <%= message %>
+            </div>
+          <% } %>
+        <h2>OTP Verification</h2>
+        <form action="/users/otp" method="POST">
+            <input type="text" class="otp-input" name="otp" placeholder="Enter OTP" required>
+            <button type="submit" class="submit-btn">Verify</button>
+        </form>
+    </div>
+</body>
+
+</html>

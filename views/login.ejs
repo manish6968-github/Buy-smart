@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    /* Reset default margin and padding */
+    /* Global reset and base styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    background-image: url('https://c0.wallpaperflare.com/preview/447/552/983/ecommerce-online-shop-euro.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    /* display: flex;
+    justify-content: center;
+    align-items: center; */
+    position: relative;
+    overflow: hidden;
+}
+
+.head {
+    margin-top: 2rem;
+}
+
+.head h1 {
+    color: black;
+}
+
+.login-container {
+  margin-top: 4rem;
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+    width: 320px;
+    max-width: 90%;
+    position: relative;
+    z-index: 1;
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #058d8d;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 8px;
+    color: #0c0707;
+}
+
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    transition: border-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    outline: none;
+    border-color: #058d8d; /* Updated focus color */
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+button[type="submit"] {
+    margin-top: 2rem;
+    background-color: #058d8d;
+    color: white;
+    border: none;
+    padding: 12px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background-color: #077f7f; /* Darker shade on hover */
+}
+
+.flash-message {
+  padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+
+.chklogin {
+    text-align: center;
+    margin-top: 10px;
+    color: #1a1616;
+    font-weight: bold;
+}
+
+.chklogin a {
+    color: #077f7f;
+    transition: opacity 0.3s ease;
+    font-weight: bold;
+    /* text-decoration: none; */
+}
+
+.chklogin a:hover {
+    opacity: 0.8;
+}
+.center{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+  </style>
+</head>
+<body>
+  
+  <div class="center">
+    <div class="head">
+      <h1>Buy Smart</h1>
+  </div>
+  <div class="login-container">
+    <h2>Login</h2>
+    <% if (message.length > 0) { %>
+      <div class="flash-message">
+        <%= message %>
+      </div>
+    <% } %>
+  
+    <form action="/users/login" method="post">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required>
+      </div>
+      <p class="chklogin">Not a member? <a href="/users/signup"> Sign Up</a></p>
+      <p class="chklogin"> <a href="/users/password">Forgot Password?</a></p>
+      <button type="submit">Login</button>
+    </form>
+  </div>
+</div>
+</body>
+</html>

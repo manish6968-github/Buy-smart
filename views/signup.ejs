@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signup Page</title>
+    <style>
+        
+        body {
+    height: 100vh;
+    font-family: Arial, sans-serif;
+    padding: 20px;
+    margin: 0;
+    background-image: url('https://c0.wallpaperflare.com/preview/447/552/983/ecommerce-online-shop-euro.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    overflow: hidden;
+}
+
+.head {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.signup-form {
+    max-width: 400px;
+    margin: 0 auto;
+    background-color: rgba(255, 255, 255, 0.9); /* Light background with transparency */
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+}
+
+.signup-form h2 {
+    font-size: 24px;
+    color: #058d8d;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    color: #0c0707;
+    font-weight: bold;
+}
+
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="password"],.captcha {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease;
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="password"]:focus {
+    outline: none;
+    border-color: #058d8d; /* Updated focus color */
+    background-color: rgba(255, 255, 255, 0.3);
+}
+
+button[type="submit"] {
+    background-color: #058d8d;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
+    margin-top: 20px;
+}
+
+button[type="submit"]:hover {
+    background-color: #077f7f; /* Darker shade on hover */
+}
+
+.flash-message {
+    padding: 10px;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    text-align: center;
+    font-size: larger;
+    font-weight: bold;
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 1px solid #f5c6cb;
+}
+
+
+
+.chklogin {
+    text-align: center;
+    margin-top: 10px;
+    color: #1a1616;
+    font-weight: bold;
+}
+
+.chklogin a {
+    color:  #077f7f;
+    transition: opacity 0.3s ease;
+    font-weight: bold;
+}
+
+.chklogin a:hover {
+    opacity: 0.8;
+}
+
+    </style>
+</head>
+<body>
+    <div class="head">
+        <h1>Buy Smart</h1>
+    </div>
+    <div class="signup-form">
+        <h2>Sign Up</h2>
+        <% if (message.length > 0) { %>
+            <div class="flash-message">
+              <%= message %>
+            </div>
+          <% } %>
+        <form action="/users/signup" method="POST">
+            <div class="form-group">
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <div class="form-group">
+                <img src="<%=imgPath%>" alt="">
+                <label for="cp">Enter Captcha:</label>
+                
+                <input type="text" id="cp" name="captcha">
+            </div>
+            <p class="chklogin">Already a member? <a href="/users/login"> Log In</a></p>
+            <button type="submit">Sign Up</button>
+        </form>
+    </div>
+</body>
+</html>

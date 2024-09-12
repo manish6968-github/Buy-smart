@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart items</title>
+    <script src="https://kit.fontawesome.com/b5722328df.js" crossorigin="anonymous"></script>
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            margin: 0;
+            padding: 0;
+        }
+        .nav{
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            /* height: 3rem; */
+            background-color:  rgb(5, 167, 167);
+            color: #f0f0f0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            justify-content: space-between;
+            /* border-radius: 2cap; */
+        }
+        .cart{
+            font-size: large;
+            font-family:Verdana, Geneva, Tahoma, sans-serif;
+        }
+        .cart h2 i{
+            font-size: 2rem;
+        }
+        .form {
+            max-width: 800px;
+            margin: 20px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        table,
+        th,
+        td {
+            border: 1px solid #ddd;
+        }
+
+        th,
+        td {
+            padding: 10px;
+            text-align: center;
+        }
+
+        th {
+            background-color: #f2f2f2;
+        }
+
+        td img {
+            max-width: 100px;
+            height: auto;
+            display: block;
+            margin: 0 auto;
+            border-radius: 10px;
+        }
+
+        td button {
+            width: 100%;
+            padding: 8px 12px;
+            background-color: #4CAF50;
+            border: none;
+            color: white;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+            margin-top: 2rem;
+        }
+
+        td button:hover {
+            background-color: #45a049;
+        }
+        
+    </style>
+</head>
+
+<body>
+    <%- include('header') %>
+    <div class="form" id="form">
+        <h2>Your Cart Items</h2>
+        <table id="table">
+            <thead>
+                <tr>
+                    <th>Product Image</th>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% products.forEach(product=> { %>
+                    <tr id="row">
+                        <td><img src="../images/<%= product.img %>" alt="<%= product.title %>"></td>
+                        <td>
+                            <%= product.title %>
+                        </td>
+                        <td class="amount">
+                            $<%= product.price %>
+                        </td>
+                        <td><button> <a id="remove-data" class='remove-item' data-id="<%= product.product_id %>">Remove
+                                    Item</a></button>
+                            <button> <a id="buy" class='buy' title=" <%= product.title %>"
+                                    price="<%= product.price %>">Buy Now</a></button>
+                        </td>
+                    </tr>
+                    <% }) %>
+                        <tr>
+                            <td id="price"></td>
+                        </tr>
+            </tbody>
+        </table>
+    </div>
+    <script>
+      document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('form');
+    form.addEventListener('click', async (event) => {
+        if (event.target.classList.contains('remove-item')) {
+            console.log('in delete');
+            // Get product ID from data attribute
+            const Id = event.target.getAttribute('data-id');
+
+            // Send a POST request to the server
+            fetch('/users/removecart', {
+                method: 'post',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ Id: Id })
+            })
+            .then(response => response.json())
+            .then(data => {
+                // Handle the response data from the server
+                if (data.success) {
+                    window.location.reload();
+                    alert('Item deleted from cart successfully!');
+                    // Optionally, update cart total or perform other actions here
+                } else {
+                    alert('Failed to delete item from cart.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred.');
+            });
+        }
+
+        if (event.target.classList.contains('buy')) {
+            console.log('in buy');
+            // Get product details from data attributes
+            const title = event.target.getAttribute('title');
+            const price = event.target.getAttribute('price');
+
+            // Send a POST request to initiate checkout with Stripe
+            const stripe = Stripe('pk_test_51PsyvZHv1ddk6KtlvOgYYNmI8mIGQIkBy9bhnKktJEO31vxAwJfCby0clsozgAVgGbY7FgPFWZBMXTS49Ljr32pe008baaeVDZ');
+
+            try {
+                const response = await fetch('/users/checkout', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({  title: title, price: price })
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to fetch data');
+                }
+
+                const sessionData = await response.json();
+
+                const result = await stripe.redirectToCheckout({
+                    sessionId: sessionData.sessionId
+                });
+
+                if (result.error) {
+                    console.error('Error:', result.error.message);
+                    throw new Error(result.error.message);
+                }
+            } catch (error) {
+                console.error('Error:', error);
+
+                if (error.message === 'Failed to fetch data') {
+                    // Handle fetch error
+                    alert('Failed to fetch data');
+                } else if (error.message === 'Unauthorized') {
+                    console.log('Unauthorized access detected, redirecting to login page.');
+                    window.location.href = '/users/login'; // Redirect to login page
+                } else {
+                    // Handle other errors
+                    alert('An error occurred.');
+                }
+            }
+        }
+    });
+});
+
+ </script>
+</body>
+
+</html>

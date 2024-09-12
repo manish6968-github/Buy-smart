@@ -1,0 +1,16 @@
+const express=require('express');
+const route=express.Router();
+const users=require('../controllers/users');
+const middlewere= require('../middlewere/auth');
+route.get('/home',users.profile);
+route.post('/signup',users.signupdata);
+route.get('/login',users.login);
+route.post('/login',users.logincheck);
+route.get('/signup',users.signup);
+route.get('/logout',users.logout);
+route.post('/address',middlewere.checkcookie,users.address);
+route.post('/search',users.search);
+route.get('/password',users.password);
+route.post('/password',users.chkemail);
+route.post('/confirm',users.chkpassword);
+module.exports=route;
